@@ -12,9 +12,9 @@ import java.awt.event.WindowEvent;
  */
 public class Yard extends Frame {
 
-    private final int ROWS = 100;
-    private final int COLUMNS = 100;
-    private final int BLOCK_SIZE = 5;
+    private final int ROWS = 50;
+    private final int COLUMNS = 50;
+    private final int BLOCK_SIZE = 10;
 
     public static void main(String[] args) {
         new Yard().launch();
@@ -22,7 +22,7 @@ public class Yard extends Frame {
 
     public void launch() {
         this.setSize(COLUMNS * BLOCK_SIZE, ROWS * BLOCK_SIZE);
-        this.setLocation(100,100);
+        this.setLocation(100, 100);
         this.setVisible(true);
         this.addWindowListener(new WindowAdapter() {
             @Override
@@ -32,4 +32,15 @@ public class Yard extends Frame {
         });
     }
 
+    @Override
+    public void paint(Graphics g) {
+        //画横线
+        for (int i = 0; i < ROWS; i++) {
+            g.drawLine(0,BLOCK_SIZE * i, BLOCK_SIZE * COLUMNS, BLOCK_SIZE * i);
+        }
+        //画竖线
+        for (int j = 0; j < COLUMNS; j++) {
+            g.drawLine(BLOCK_SIZE * j, 0, BLOCK_SIZE * j, BLOCK_SIZE * ROWS);
+        }
+    }
 }
