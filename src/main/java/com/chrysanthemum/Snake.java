@@ -17,14 +17,24 @@ public class Snake /*extends Frame*/ {
     private Node tail;
 
 
+    public Snake(Node node) {
+        head = node;
+        tail = node;
+    }
+
+    public void addToTail(Node node) {
+        tail.next = node;
+    }
 
     /*至于怎么画是每一节做决定*/
     private class Node {
-        public static final int SIZE = Yard.BLOCK_SIZE;
         public final int ROW;
         public  final int COL;
+        public static final int SIZE = Yard.BLOCK_SIZE;
         private  int base_rand = 201;
         private  int base_rand_complement = 100;
+        Node next;
+
        {
             // 刚好占满一个格子
             int rand_row = (int) (Math.random() * base_rand) + base_rand_complement;
