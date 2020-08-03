@@ -12,9 +12,10 @@ import java.awt.event.WindowEvent;
  */
 public class Yard extends Frame {
 
-    private final int ROWS = 50;
-    private final int COLUMNS = 50;
-    private final int BLOCK_SIZE = 10;
+    public static final int ROWS = 50;
+    public static final int COLUMNS = 50;
+    public static final int BLOCK_SIZE = 10;
+    private Snake snake = new Snake();
 
     public static void main(String[] args) {
         new Yard().launch();
@@ -42,5 +43,7 @@ public class Yard extends Frame {
         for (int j = 0; j < COLUMNS; j++) {
             g.drawLine(BLOCK_SIZE * j, 0, BLOCK_SIZE * j, BLOCK_SIZE * ROWS);
         }
+        snake.paint(g);
+
     }
 }
