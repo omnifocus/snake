@@ -21,14 +21,44 @@ public class Snake /*extends Frame*/ {
     private Node tail;
 
 
-    public Snake(Node node) {
+    public Snake() {
+        Node node = new Node(Dir.U);
         head = node;
         tail = node;
     }
 
-    public void addToTail(Node node) {
-        tail.next = node;
+    //画出每一节
+    public void draw(Graphics g) {
+        Node node = head;
+        while (node != null){
+            node.draw(g);
+            node = node.next;
+        }
+
     }
+
+    public void addToTail(/*Node node*/) {
+
+        Node node = null;
+        switch (tail.dir) {
+            case U:
+                node = new Node(tail.row + Node.SIZE, tail.col, tail.dir);
+                break;
+            case D:
+                node = new Node(tail.row - Node.SIZE, tail.col, tail.dir);
+                break;
+            case L:
+                node = new Node(tail.row , tail.col + Node.SIZE, tail.dir);
+                break;
+            case R:
+                node = new Node(tail.row , tail.col - Node.SIZE, tail.dir);
+                break;
+        }
+        tail.next = node;
+        tail = node;
+    }
+
+
 
     /*至于怎么画是每一节做决定*/
     private class Node {
@@ -51,13 +81,17 @@ public class Snake /*extends Frame*/ {
         }
 
         Node(int row, int col, Dir dir) {
+           this(dir);
            this.row = row;
            this.col = col;
+
+        }
+
+        Node(Dir dir) {
            this.dir = dir;
         }
 
-
-        public void paint(Graphics g) {
+        public void draw(Graphics g) {
             Color c = g.getColor();
             g.setColor(Color.BLACK);
             g.fillRect(row, col, SIZE, SIZE);

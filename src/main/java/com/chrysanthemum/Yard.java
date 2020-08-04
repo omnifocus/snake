@@ -18,7 +18,18 @@ public class Yard extends Frame {
     private Snake snake = new Snake();
 
     public static void main(String[] args) {
-        new Yard().launch();
+        Yard yard = new Yard();
+        yard.launch();
+        new Thread(()->{
+            while(true) {
+                yard.repaint();
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     public void launch() {
@@ -43,7 +54,9 @@ public class Yard extends Frame {
         for (int j = 0; j < COLUMNS; j++) {
             g.drawLine(BLOCK_SIZE * j, 0, BLOCK_SIZE * j, BLOCK_SIZE * ROWS);
         }
-        snake.paint(g);
+        snake.draw(g);
 
     }
+
+
 }
