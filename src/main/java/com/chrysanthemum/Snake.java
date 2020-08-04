@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 import static java.awt.event.KeyEvent.*;
 
 enum Dir {
-    L,R,U,D
+    L, R, U, D
 }
 
 /**
@@ -20,9 +20,9 @@ public class Snake /*extends Frame*/ {
 
 
     // 由多个Node组成
-    private Node head ;
+    private Node head;
     private Node tail;
-    private Dir headDir;
+    private Dir headDir = Dir.U;
 
 
     public Snake() {
@@ -34,7 +34,7 @@ public class Snake /*extends Frame*/ {
     //画出每一节
     public void draw(Graphics g) {
         Node node = head;
-        while (node != null){
+        while (node != null) {
             node.draw(g);
             node = node.next;
         }
@@ -53,13 +53,14 @@ public class Snake /*extends Frame*/ {
                 node = new Node(tail.row - Node.SIZE, tail.col, tail.dir);
                 break;
             case L:
-                node = new Node(tail.row , tail.col + Node.SIZE, tail.dir);
+                node = new Node(tail.row, tail.col + Node.SIZE, tail.dir);
                 break;
             case R:
-                node = new Node(tail.row , tail.col - Node.SIZE, tail.dir);
+                node = new Node(tail.row, tail.col - Node.SIZE, tail.dir);
                 break;
         }
         tail.next = node;
+        node.prev = tail;
         tail = node;
     }
 
@@ -89,43 +90,46 @@ public class Snake /*extends Frame*/ {
 
     private void removeTail() {
         //怎么找到tail的前一个呢？
-
+        tail = tail.prev;
+        tail.next = null;
     }
 
     private void addToHead() {
+        Node node = null;
         switch (headDir) {
             case U:
-                Node nodeU = new Node(head.row - Node.SIZE, head.col, headDir);
-                nodeU.next = head;
+                node = new Node(head.row - Node.SIZE, head.col, headDir);
                 break;
             case D:
-                Node nodeD = new Node(head.row + Node.SIZE, head.col, headDir);
-                nodeD.next = head;
+                node = new Node(head.row + Node.SIZE, head.col, headDir);
                 break;
             case L:
-                Node nodeL = new Node(head.row , head.col - Node.SIZE, headDir);
-                nodeL.next = head;
+                node = new Node(head.row, head.col - Node.SIZE, headDir);
                 break;
             case R:
-                Node nodeR = new Node(head.row , head.col + Node.SIZE, headDir);
-                nodeR.next = head;
+                node = new Node(head.row, head.col + Node.SIZE, headDir);
                 break;
         }
+        node.next = head;
+        head.prev = node;
+        head = node;
     }
 
 
     /*至于怎么画是每一节做决定*/
     private class Node {
-        public  int row;
-        public   int col;
+        public int row;
+        public int col;
         public static final int SIZE = Yard.BLOCK_SIZE;
-        private  int base_rand = 201;
-        private  int base_rand_complement = 100;
+        //指向前一个
+        Node prev;
+        private int base_rand = 201;
         //指向下一个
         Node next;
+        private int base_rand_complement = 100;
         Dir dir;
 
-       {
+        {
             // 刚好占满一个格子
             int rand_row = (int) (Math.random() * base_rand) + base_rand_complement;
             int rand_col = (int) (Math.random() * base_rand) + base_rand_complement;
@@ -135,20 +139,20 @@ public class Snake /*extends Frame*/ {
         }
 
         Node(int row, int col, Dir dir) {
-           this(dir);
-           this.row = row;
-           this.col = col;
+            this(dir);
+            this.row = row;
+            this.col = col;
 
         }
 
         Node(Dir dir) {
-           this.dir = dir;
+            this.dir = dir;
         }
 
         public void draw(Graphics g) {
             Color c = g.getColor();
             g.setColor(Color.BLACK);
-            g.fillRect(row, col, SIZE, SIZE);
+            g.fillRect(col, row, SIZE, SIZE);
             g.setColor(c);
         }
 
