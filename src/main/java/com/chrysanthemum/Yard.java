@@ -1,6 +1,8 @@
 package com.chrysanthemum;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -40,6 +42,12 @@ public class Yard extends Frame {
             @Override
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
+            }
+        });
+        this.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                snake.keyPressed(e);
             }
         });
     }

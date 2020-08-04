@@ -1,6 +1,9 @@
 package com.chrysanthemum;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+
+import static java.awt.event.KeyEvent.*;
 
 enum Dir {
     L,R,U,D
@@ -19,6 +22,7 @@ public class Snake /*extends Frame*/ {
     // 由多个Node组成
     private Node head ;
     private Node tail;
+    private Dir headDir;
 
 
     public Snake() {
@@ -34,6 +38,7 @@ public class Snake /*extends Frame*/ {
             node.draw(g);
             node = node.next;
         }
+        move();
 
     }
 
@@ -58,6 +63,55 @@ public class Snake /*extends Frame*/ {
         tail = node;
     }
 
+    //控制蛇头的走向
+    public void keyPressed(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case VK_LEFT:
+                headDir = Dir.L;
+                break;
+            case VK_RIGHT:
+                headDir = Dir.R;
+                break;
+            case VK_UP:
+                headDir = Dir.U;
+                break;
+            case VK_DOWN:
+                headDir = Dir.D;
+                break;
+        }
+
+    }
+
+    private void move() {
+        addToHead();
+        removeTail();
+    }
+
+    private void removeTail() {
+        //怎么找到tail的前一个呢？
+
+    }
+
+    private void addToHead() {
+        switch (headDir) {
+            case U:
+                Node nodeU = new Node(head.row - Node.SIZE, head.col, headDir);
+                nodeU.next = head;
+                break;
+            case D:
+                Node nodeD = new Node(head.row + Node.SIZE, head.col, headDir);
+                nodeD.next = head;
+                break;
+            case L:
+                Node nodeL = new Node(head.row , head.col - Node.SIZE, headDir);
+                nodeL.next = head;
+                break;
+            case R:
+                Node nodeR = new Node(head.row , head.col + Node.SIZE, headDir);
+                nodeR.next = head;
+                break;
+        }
+    }
 
 
     /*至于怎么画是每一节做决定*/
