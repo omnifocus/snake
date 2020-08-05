@@ -26,7 +26,7 @@ public class Snake /*extends Frame*/ {
 
 
     public Snake() {
-        Node node = new Node(Dir.U);
+        Node node = new Node(100,100,Dir.U);
         head = node;
         tail = node;
     }
@@ -123,19 +123,16 @@ public class Snake /*extends Frame*/ {
         public static final int SIZE = Yard.BLOCK_SIZE;
         //指向前一个
         Node prev;
-        private int base_rand = 201;
+        private int base_rand = 10;
         //指向下一个
         Node next;
-        private int base_rand_complement = 100;
+        private int base_rand_complement = 10;
         Dir dir;
 
         {
             // 刚好占满一个格子
-            int rand_row = (int) (Math.random() * base_rand) + base_rand_complement;
-            int rand_col = (int) (Math.random() * base_rand) + base_rand_complement;
-            // 如果是202，那么就202-2，如果是200，结果就是200
-            row = rand_row % 10 == 0 ? rand_row : rand_row - rand_row % 10;
-            col = rand_col % 10 == 0 ? rand_col : rand_col - rand_col % 10;
+           row = (int) (Math.random() * base_rand) + base_rand_complement;
+            col = (int) (Math.random() * base_rand) + base_rand_complement;
         }
 
         Node(int row, int col, Dir dir) {
