@@ -72,6 +72,7 @@ public class Yard extends Frame {
         }
         snake.draw(g);
         egg.draw(g);
+        snake.eat(egg);
         g.setColor(c);
 
     }

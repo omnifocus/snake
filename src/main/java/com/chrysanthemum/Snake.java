@@ -47,16 +47,16 @@ public class Snake /*extends Frame*/ {
         Node node = null;
         switch (tail.dir) {
             case U:
-                node = new Node(tail.row + Node.SIZE, tail.col, tail.dir);
+                node = new Node(tail.row +  head.w, tail.col, tail.dir);
                 break;
             case D:
-                node = new Node(tail.row - Node.SIZE, tail.col, tail.dir);
+                node = new Node(tail.row -  head.w, tail.col, tail.dir);
                 break;
             case L:
-                node = new Node(tail.row, tail.col + Node.SIZE, tail.dir);
+                node = new Node(tail.row, tail.col +  head.w, tail.dir);
                 break;
             case R:
-                node = new Node(tail.row, tail.col - Node.SIZE, tail.dir);
+                node = new Node(tail.row, tail.col -  head.w, tail.dir);
                 break;
         }
         tail.next = node;
@@ -98,16 +98,16 @@ public class Snake /*extends Frame*/ {
         Node node = null;
         switch (headDir) {
             case U:
-                node = new Node(head.row - Node.SIZE, head.col, headDir);
+                node = new Node(head.row - head.w, head.col, headDir);
                 break;
             case D:
-                node = new Node(head.row + Node.SIZE, head.col, headDir);
+                node = new Node(head.row +  head.w, head.col, headDir);
                 break;
             case L:
-                node = new Node(head.row, head.col - Node.SIZE, headDir);
+                node = new Node(head.row, head.col -  head.w, headDir);
                 break;
             case R:
-                node = new Node(head.row, head.col + Node.SIZE, headDir);
+                node = new Node(head.row, head.col +  head.w, headDir);
                 break;
         }
         node.next = head;
@@ -115,12 +115,22 @@ public class Snake /*extends Frame*/ {
         head = node;
     }
 
+    public void eat(Egg egg) {
+        if (getRectangle().intersects(egg.getRectangle())) {
+            egg.reappear();
+            addToHead();
+        }
+    }
+
+    public Rectangle getRectangle() {
+        return new Rectangle(head.col  , head.row , head.w, head.h );
+    }
 
     /*至于怎么画是每一节做决定*/
     private class Node {
         public int row;
         public int col;
-        public static final int SIZE = Yard.BLOCK_SIZE;
+       int w = Yard.BLOCK_SIZE, h = w;
         //指向前一个
         Node prev;
         private int base_rand = 10;
@@ -137,8 +147,9 @@ public class Snake /*extends Frame*/ {
 
         Node(int row, int col, Dir dir) {
             this(dir);
-            this.row = row;
-            this.col = col;
+            this.row = row ;
+            this.col = col ;
+
 
         }
 
@@ -149,7 +160,7 @@ public class Snake /*extends Frame*/ {
         public void draw(Graphics g) {
             Color c = g.getColor();
             g.setColor(Color.BLACK);
-            g.fillRect(col, row, SIZE, SIZE);
+            g.fillRect(col , row , w,h);
             g.setColor(c);
         }
 
